@@ -1,0 +1,11 @@
+# Ignore node_modules
+node_modules/
+
+# Ignore all photo files (common image formats)
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.tiff
+*.svg
