@@ -6,28 +6,38 @@ import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
+import serverlessExpress from '@vendia/serverless-express';
+import { Handler, Context, Callback } from 'aws-lambda';
+
+let server: Handler;
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // Enable global validation
+  // Global validation pipe
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
 
-  // Configure static file serving with a direct path for Windows
+  // Static files
   const uploadPath = join(__dirname, '..', 'uploads');
-  console.log('Static files path:', uploadPath);
   app.useStaticAssets(uploadPath, {
     prefix: '/uploads/',
   });
 
-  const configService = app.get(ConfigService);
-  const port = configService.get<number>('PORT', 3000);
-  // main.ts
+  // CORS settings
   app.enableCors({
-    origin: 'http://localhost:3000', // Your Next.js origin
+    origin: 'http://localhost:3000',
     credentials: true,
   });
 
-  await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}`);
+  // Initialize without starting a listener
+  await app.init();
+
+  const expressApp = app.getHttpAdapter().getInstance();
+  server = serverlessExpress({ app: expressApp });
 }
+
 bootstrap();
+
+export const handler: Handler = (event: any, context: Context, callback: Callback) => {
+  return server(event, context, callback);
+};
