@@ -19,7 +19,7 @@ import { ImageService } from './image.service';
 import * as fs from 'fs';
 import { Request } from 'express';
 import { JwtPayload } from '../auth/jwt-payload.type';
-import { User } from 'src/auth/decorators/user.decorator';
+import { User } from '../auth/decorators/user.decorator';
 
 @Controller('products')
 export class ProductsController {
