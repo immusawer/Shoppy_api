@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserWithPassword, SafeUser } from '../auth/user.types';
+import { normalize } from 'path';
 
 @Injectable()
 export class AuthService {
@@ -13,8 +14,11 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string): Promise<SafeUser | null> {
+    const normalizedInput = email.toLowerCase();
     const user = await this.prisma.user.findUnique({ 
-      where: { email },
+      where: {
+        email: normalizedInput, // or username if using that
+      },
     });
 
     if (user && (await bcrypt.compare(password, user.password))) {

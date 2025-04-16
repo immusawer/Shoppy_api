@@ -3,7 +3,6 @@ import { Controller, Post, Body, Res, UnauthorizedException } from '@nestjs/comm
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { Response } from 'express';
-import { SafeUser } from '../auth/user.types';
 
 @Controller('auth')
 export class AuthController {
