@@ -16,7 +16,7 @@ async function bootstrap() {
     const configService = app.get(config_1.ConfigService);
     const port = configService.get('PORT', 3000);
     app.enableCors({
-        origin: 'http://localhost:3000',
+        origin: ['http://localhost:3000', 'https://shoppy-ui-pi.vercel.app/', 'https://3d1e-217-142-22-215.ngrok-free.app '],
         credentials: true,
     });
     await app.listen(port);

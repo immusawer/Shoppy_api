@@ -39,7 +39,7 @@ let UsersService = class UsersService {
             return await this.prisma.user.create({
                 data: {
                     username: createUserDto.username,
-                    email: createUserDto.email,
+                    email: createUserDto.email.toLowerCase(),
                     password: hashedPassword,
                     name: createUserDto.name,
                     profileImage,

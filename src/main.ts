@@ -23,7 +23,7 @@ async function bootstrap() {
   const port = configService.get<number>('PORT', 3000);
   // main.ts
   app.enableCors({
-    origin: 'http://localhost:3000', // Your Next.js origin
+    origin: ['http://localhost:3000','https://shoppy-ui-pi.vercel.app/','https://3d1e-217-142-22-215.ngrok-free.app '], // Your Next.js origin
     credentials: true,
   });
 

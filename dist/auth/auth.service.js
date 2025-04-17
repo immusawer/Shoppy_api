@@ -22,8 +22,11 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
     }
     async validateUser(email, password) {
+        const normalizedInput = email.toLowerCase();
         const user = await this.prisma.user.findUnique({
-            where: { email },
+            where: {
+                email: normalizedInput,
+            },
         });
         if (user && (await bcrypt.compare(password, user.password))) {
             const { password: _, ...result } = user;
